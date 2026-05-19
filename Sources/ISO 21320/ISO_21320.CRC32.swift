@@ -2,6 +2,9 @@
 //
 // CRC-32 checksum as used in ZIP files (IEEE 802.3 polynomial).
 
+public import Byte_Primitives
+public import Standard_Library_Extensions
+
 extension ISO_21320 {
     /// CRC-32 checksum types.
     public enum CRC {}
@@ -33,6 +36,20 @@ extension ISO_21320.CRC {
         ///
         /// - Parameter data: The bytes to checksum.
         /// - Returns: The CRC-32 checksum.
+        public static func checksum<Bytes>(_ data: Bytes) -> UInt32
+        where Bytes: Sequence, Bytes.Element == Byte {
+            // UInt32 accumulator is arithmetic-domain; cross the byte-domain
+            // boundary via .underlying.
+            var crc: UInt32 = 0xFFFFFFFF
+            for byte in data {
+                let index = Int((crc ^ UInt32(byte.underlying)) & 0xFF)
+                crc = (crc >> 8) ^ table[index]
+            }
+            return crc ^ 0xFFFFFFFF
+        }
+
+        /// Stdlib-interop forwarder: `Bytes.Element == UInt8`.
+        @_disfavoredOverload
         public static func checksum<Bytes>(_ data: Bytes) -> UInt32
         where Bytes: Sequence, Bytes.Element == UInt8 {
             var crc: UInt32 = 0xFFFFFFFF

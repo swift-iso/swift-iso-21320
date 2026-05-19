@@ -18,6 +18,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
+        .package(path: "../../swift-primitives/swift-byte-primitives"),
         .package(path: "../../swift-ietf/swift-rfc-1951")
     ],
     targets: [
@@ -25,6 +26,8 @@ let package = Package(
             name: "ISO 21320",
             dependencies: [
                 .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
+                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+                .product(name: "Byte Primitives Standard Library Integration", package: "swift-byte-primitives"),
                 .product(name: "RFC 1951", package: "swift-rfc-1951")
             ]
         ),
