@@ -14,7 +14,8 @@ let package = Package(
         .visionOS(.v26)
     ],
     products: [
-        .library(name: "ISO 21320", targets: ["ISO 21320"])
+        .library(name: "ISO 21320", targets: ["ISO 21320"]),
+        .library(name: "ISO 21320 Standard Library Integration", targets: ["ISO 21320 Standard Library Integration"]),
     ],
     dependencies: [
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
@@ -31,10 +32,24 @@ let package = Package(
                 .product(name: "RFC 1951", package: "swift-rfc-1951")
             ]
         ),
+        .target(
+            name: "ISO 21320 Standard Library Integration",
+            dependencies: [
+                "ISO 21320",
+                .product(name: "Byte Primitives Standard Library Integration", package: "swift-byte-primitives"),
+            ]
+        ),
         .testTarget(
             name: "ISO 21320 Tests",
             dependencies: [
                 "ISO 21320",
+            ]
+        ),
+        .testTarget(
+            name: "ISO 21320 Standard Library Integration Tests",
+            dependencies: [
+                "ISO 21320",
+                "ISO 21320 Standard Library Integration",
             ]
         ),
     ],

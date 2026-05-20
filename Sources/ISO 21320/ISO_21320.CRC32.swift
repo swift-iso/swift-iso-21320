@@ -48,16 +48,7 @@ extension ISO_21320.CRC {
             return crc ^ 0xFFFFFFFF
         }
 
-        /// Stdlib-interop forwarder: `Bytes.Element == UInt8`.
-        @_disfavoredOverload
-        public static func checksum<Bytes>(_ data: Bytes) -> UInt32
-        where Bytes: Sequence, Bytes.Element == UInt8 {
-            var crc: UInt32 = 0xFFFFFFFF
-            for byte in data {
-                let index = Int((crc ^ UInt32(byte)) & 0xFF)
-                crc = (crc >> 8) ^ table[index]
-            }
-            return crc ^ 0xFFFFFFFF
-        }
+        // Stdlib-interop UInt8 forwarder lives in `ISO 21320 Standard Library
+        // Integration` per [API-BYTE-007].
     }
 }

@@ -2,6 +2,7 @@
 //
 // ZIP archive writer conforming to ISO/IEC 21320-1.
 
+internal import Byte_Primitives
 public import RFC_1951
 
 extension ISO_21320 {
@@ -118,7 +119,7 @@ extension ISO_21320.Archive {
         init(path: String, uncompressedData: [UInt8], compress: Bool) {
             self.path = path
             self.uncompressedData = uncompressedData
-            self.crc32 = ISO_21320.CRC.`32`.checksum(uncompressedData)
+            self.crc32 = ISO_21320.CRC.`32`.checksum(uncompressedData.lazy.map(Byte.init))
 
             // Use current-ish date: 1980-01-01 00:00:00 (minimum DOS date)
             self.modificationTime = 0
