@@ -18,9 +18,9 @@ let package = Package(
         .library(name: "ISO 21320 Standard Library Integration", targets: ["ISO 21320 Standard Library Integration"]),
     ],
     dependencies: [
-        .package(path: "../../swift-primitives/swift-standard-library-extensions"),
-        .package(path: "../../swift-primitives/swift-byte-primitives"),
-        .package(path: "../../swift-ietf/swift-rfc-1951")
+        .package(url: "https://github.com/swift-primitives/swift-standard-library-extensions.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-byte-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-1951.git", branch: "main")
     ],
     targets: [
         .target(
