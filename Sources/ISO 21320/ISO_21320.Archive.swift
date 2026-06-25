@@ -126,10 +126,12 @@ extension ISO_21320.Archive {
             self.modificationDate = 0x0021
 
             if compress && !uncompressedData.isEmpty {
-                let deflated = RFC_1951.compress(uncompressedData, level: .balanced)
+                // RFC_1951.compress is byte-typed (Element == Byte) post-cascade; bridge the
+                // [UInt8] entry data in/out at this single off-PDF-chain call site.
+                let deflated = RFC_1951.compress(uncompressedData.lazy.map(Byte.init), level: .balanced)
                 // Only use compression if it actually saves space
                 if deflated.count < uncompressedData.count {
-                    self.compressedData = deflated
+                    self.compressedData = deflated.map { $0.underlying }
                     self.compressionMethod = .deflate
                 } else {
                     self.compressedData = uncompressedData
