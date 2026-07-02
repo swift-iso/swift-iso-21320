@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "Swift implementation of ISO 21320: Document Container File (ZIP)."
+description: "Swift implementation of ISO/IEC 21320-1: Document Container File (ZIP)."
 topics:
   - standards
   - iso
