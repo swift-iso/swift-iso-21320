@@ -5,8 +5,8 @@
 // `Sequence<UInt8>` (e.g. `[UInt8]` from network buffers, file-read frames)
 // via `.lazy.map(Byte.init)`. Per [API-BYTE-007] (byte-discipline skill).
 
-public import ISO_21320
 internal import Byte_Primitives
+public import ISO_21320
 
 extension ISO_21320.CRC.`32` {
     /// Stdlib-interop forwarder: `Bytes.Element == UInt8`.

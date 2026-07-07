@@ -1,5 +1,6 @@
-import Testing
 import Byte_Primitives
+import Testing
+
 @testable import ISO_21320
 
 @Suite("ISO 21320 Tests")
@@ -9,7 +10,7 @@ struct ISO_21320_Tests {
         // Known test vector: "123456789" -> 0xCBF43926
         let data: [Byte] = "123456789".utf8.map(Byte.init)
         let crc = ISO_21320.CRC.`32`.checksum(data)
-        #expect(crc == 0xCBF43926)
+        #expect(crc == 0xCBF4_3926)
     }
 
     @Test

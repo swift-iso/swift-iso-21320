@@ -22,7 +22,7 @@ extension ISO_21320.CRC {
                 var crc = UInt32(i)
                 for _ in 0..<8 {
                     if crc & 1 != 0 {
-                        crc = (crc >> 1) ^ 0xEDB88320
+                        crc = (crc >> 1) ^ 0xEDB8_8320
                     } else {
                         crc >>= 1
                     }
@@ -40,12 +40,12 @@ extension ISO_21320.CRC {
         where Bytes: Sequence, Bytes.Element == Byte {
             // UInt32 accumulator is arithmetic-domain; cross the byte-domain
             // boundary via .underlying.
-            var crc: UInt32 = 0xFFFFFFFF
+            var crc: UInt32 = 0xFFFF_FFFF
             for byte in data {
                 let index = Int((crc ^ UInt32(byte.underlying)) & 0xFF)
                 crc = (crc >> 8) ^ table[index]
             }
-            return crc ^ 0xFFFFFFFF
+            return crc ^ 0xFFFF_FFFF
         }
 
         // Stdlib-interop UInt8 forwarder lives in `ISO 21320 Standard Library

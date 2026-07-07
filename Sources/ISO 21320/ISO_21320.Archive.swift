@@ -128,7 +128,10 @@ extension ISO_21320.Archive {
             if compress && !uncompressedData.isEmpty {
                 // RFC_1951.compress is byte-typed (Element == Byte) post-cascade; bridge the
                 // [UInt8] entry data in/out at this single off-PDF-chain call site.
-                let deflated = RFC_1951.compress(uncompressedData.lazy.map(Byte.init), level: .balanced)
+                let deflated = RFC_1951.compress(
+                    uncompressedData.lazy.map(Byte.init),
+                    level: .balanced
+                )
                 // Only use compression if it actually saves space
                 if deflated.count < uncompressedData.count {
                     self.compressedData = deflated.map { $0.underlying }
@@ -232,7 +235,7 @@ extension ISO_21320.Archive {
             writeUInt16(0, to: &output)
 
             // External file attributes (Unix regular file, 0644)
-            writeUInt32(0x81A40000, to: &output)
+            writeUInt32(0x81A4_0000, to: &output)
 
             // Relative offset of local header
             writeUInt32(localOffset, to: &output)
