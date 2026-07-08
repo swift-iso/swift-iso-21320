@@ -31,24 +31,26 @@ extension ISO_21320.CRC {
             }
             return table
         }()
-
-        /// Calculate CRC-32 checksum of data.
-        ///
-        /// - Parameter data: The bytes to checksum.
-        /// - Returns: The CRC-32 checksum.
-        public static func checksum<Bytes>(_ data: Bytes) -> UInt32
-        where Bytes: Sequence, Bytes.Element == Byte {
-            // UInt32 accumulator is arithmetic-domain; cross the byte-domain
-            // boundary via .underlying.
-            var crc: UInt32 = 0xFFFF_FFFF
-            for byte in data {
-                let index = Int((crc ^ UInt32(byte.underlying)) & 0xFF)
-                crc = (crc >> 8) ^ table[index]
-            }
-            return crc ^ 0xFFFF_FFFF
-        }
-
-        // Stdlib-interop UInt8 forwarder lives in `ISO 21320 Standard Library
-        // Integration` per [API-BYTE-007].
     }
+}
+
+extension ISO_21320.CRC.`32` {
+    /// Calculate CRC-32 checksum of data.
+    ///
+    /// - Parameter data: The bytes to checksum.
+    /// - Returns: The CRC-32 checksum.
+    public static func checksum<Bytes>(_ data: Bytes) -> UInt32
+    where Bytes: Sequence, Bytes.Element == Byte {
+        // UInt32 accumulator is arithmetic-domain; cross the byte-domain
+        // boundary via .underlying.
+        var crc: UInt32 = 0xFFFF_FFFF
+        for byte in data {
+            let index = Int((crc ^ UInt32(byte.underlying)) & 0xFF)
+            crc = (crc >> 8) ^ table[index]
+        }
+        return crc ^ 0xFFFF_FFFF
+    }
+
+    // Stdlib-interop UInt8 forwarder lives in `ISO 21320 Standard Library
+    // Integration` per [API-BYTE-007].
 }
