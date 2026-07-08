@@ -14,27 +14,27 @@ extension ISO_21320.CRC {
     /// CRC-32 checksum calculator.
     ///
     /// Uses the polynomial 0xEDB88320 (IEEE 802.3, same as used in ZIP, gzip, PNG).
-    public enum `32` {
-        /// Precomputed CRC-32 lookup table.
-        private static let table: [UInt32] = {
-            var table = [UInt32](repeating: 0, count: 256)
-            for i in 0..<256 {
-                var crc = UInt32(i)
-                for _ in 0..<8 {
-                    if crc & 1 != 0 {
-                        crc = (crc >> 1) ^ 0xEDB8_8320
-                    } else {
-                        crc >>= 1
-                    }
-                }
-                table[i] = crc
-            }
-            return table
-        }()
-    }
+    public enum `32` {}
 }
 
 extension ISO_21320.CRC.`32` {
+    /// Precomputed CRC-32 lookup table.
+    private static let table: [UInt32] = {
+        var table = [UInt32](repeating: 0, count: 256)
+        for i in 0..<256 {
+            var crc = UInt32(i)
+            for _ in 0..<8 {
+                if crc & 1 != 0 {
+                    crc = (crc >> 1) ^ 0xEDB8_8320
+                } else {
+                    crc >>= 1
+                }
+            }
+            table[i] = crc
+        }
+        return table
+    }()
+
     /// Calculate CRC-32 checksum of data.
     ///
     /// - Parameter data: The bytes to checksum.
