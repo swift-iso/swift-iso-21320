@@ -1,0 +1,6 @@
+version: 1
+builder:
+  configs:
+  - documentation_targets:
+    - ISO 21320
+    - ISO 21320 Standard Library Integration
