@@ -15,7 +15,7 @@ Add the package to your `Package.swift` dependencies:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-iso/swift-iso-21320.git", from: "0.0.1")
+    .package(url: "https://github.com/swift-iso/swift-iso-21320.git", branch: "main")
 ]
 ```
 
