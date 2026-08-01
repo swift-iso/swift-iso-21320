@@ -1,10 +1,5 @@
 // ISO_21320.File.swift
 
-extension ISO_21320 {
-    /// File-related types for ISO 21320-1.
-    public enum File {}
-}
-
 extension ISO_21320.File {
     /// A file entry in the archive.
     ///

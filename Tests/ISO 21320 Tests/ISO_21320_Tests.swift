@@ -5,6 +5,10 @@ import Testing
 
 @Suite("ISO 21320 Tests")
 struct ISO_21320_Tests {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
     @Test
     func `CRC-32 checksum`() {
         // Known test vector: "123456789" -> 0xCBF43926

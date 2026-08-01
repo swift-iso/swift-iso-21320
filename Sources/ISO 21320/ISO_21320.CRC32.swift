@@ -5,11 +5,6 @@
 public import Byte_Primitives
 public import Standard_Library_Extensions
 
-extension ISO_21320 {
-    /// CRC-32 checksum types.
-    public enum CRC {}
-}
-
 extension ISO_21320.CRC {
     /// CRC-32 checksum calculator.
     ///
@@ -21,7 +16,7 @@ extension ISO_21320.CRC.`32` {
     /// Precomputed CRC-32 lookup table.
     private static let table: [UInt32] = {
         var table = [UInt32](repeating: 0, count: 256)
-        for i in 0..<256 {
+        table.indices.forEach { i in
             var crc = UInt32(i)
             for _ in 0..<8 {
                 if crc & 1 != 0 {
@@ -40,7 +35,7 @@ extension ISO_21320.CRC.`32` {
     /// - Parameter data: The bytes to checksum.
     /// - Returns: The CRC-32 checksum.
     public static func checksum<Bytes>(_ data: Bytes) -> UInt32
-    where Bytes: Sequence, Bytes.Element == Byte {
+    where Bytes: Swift.Sequence, Bytes.Element == Byte {
         // UInt32 accumulator is arithmetic-domain; cross the byte-domain
         // boundary via .underlying.
         var crc: UInt32 = 0xFFFF_FFFF
