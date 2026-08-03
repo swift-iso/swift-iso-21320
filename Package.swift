@@ -11,38 +11,56 @@ let package = Package(
         .iOS(.v26),
         .tvOS(.v26),
         .watchOS(.v26),
-        .visionOS(.v26)
+        .visionOS(.v26),
     ],
     products: [
         .library(name: "ISO 21320", targets: ["ISO 21320"]),
-        .library(name: "ISO 21320 Standard Library Integration", targets: ["ISO 21320 Standard Library Integration"]),
+        .library(
+            name: "ISO 21320 Standard Library Integration",
+            targets: ["ISO 21320 Standard Library Integration"]
+        ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-primitives/swift-standard-library-extensions.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-byte-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-ietf/swift-rfc-1951.git", branch: "main")
+        .package(
+            url: "https://github.com/swift-primitives/swift-standard-library-extensions.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-primitives/swift-byte-primitives.git",
+            branch: "main"
+        ),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-1951.git", branch: "main"),
     ],
     targets: [
         .target(
             name: "ISO 21320",
             dependencies: [
-                .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
+                .product(
+                    name: "Standard Library Extensions",
+                    package: "swift-standard-library-extensions"
+                ),
                 .product(name: "Byte Primitives", package: "swift-byte-primitives"),
-                .product(name: "Byte Primitives Standard Library Integration", package: "swift-byte-primitives"),
-                .product(name: "RFC 1951", package: "swift-rfc-1951")
+                .product(
+                    name: "Byte Primitives Standard Library Integration",
+                    package: "swift-byte-primitives"
+                ),
+                .product(name: "RFC 1951", package: "swift-rfc-1951"),
             ]
         ),
         .target(
             name: "ISO 21320 Standard Library Integration",
             dependencies: [
                 "ISO 21320",
-                .product(name: "Byte Primitives Standard Library Integration", package: "swift-byte-primitives"),
+                .product(
+                    name: "Byte Primitives Standard Library Integration",
+                    package: "swift-byte-primitives"
+                ),
             ]
         ),
         .testTarget(
             name: "ISO 21320 Tests",
             dependencies: [
-                "ISO 21320",
+                "ISO 21320"
             ]
         ),
         .testTarget(
