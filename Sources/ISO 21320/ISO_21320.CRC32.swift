@@ -3,7 +3,7 @@
 // CRC-32 checksum as used in ZIP files (IEEE 802.3 polynomial).
 
 public import Byte_Primitives
-public import Standard_Library_Extensions
+import Standard_Library_Extensions
 
 extension ISO_21320.CRC {
     /// CRC-32 checksum calculator.

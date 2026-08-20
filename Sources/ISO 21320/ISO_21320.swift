@@ -14,7 +14,7 @@
 //
 // Reference: https://www.iso.org/standard/60101.html
 
-public import Standard_Library_Extensions
+import Standard_Library_Extensions
 
 /// ISO/IEC 21320-1 Document Container File format.
 ///

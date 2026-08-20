@@ -3,7 +3,7 @@
 // ZIP archive writer conforming to ISO/IEC 21320-1.
 
 internal import Byte_Primitives
-public import RFC_1951
+import RFC_1951
 
 extension ISO_21320 {
     /// A document container archive (ZIP) writer.
