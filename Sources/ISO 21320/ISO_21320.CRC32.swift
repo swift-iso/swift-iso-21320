@@ -1,19 +1,13 @@
-// ISO_21320.CRC32.swift
-//
-// CRC-32 checksum as used in ZIP files (IEEE 802.3 polynomial).
-
 public import Byte_Primitives
 import Standard_Library_Extensions
 
 extension ISO_21320.CRC {
-    /// CRC-32 checksum calculator.
-    ///
-    /// Uses the polynomial 0xEDB88320 (IEEE 802.3, same as used in ZIP, gzip, PNG).
+
     public enum `32` {}
 }
 
 extension ISO_21320.CRC.`32` {
-    /// Precomputed CRC-32 lookup table.
+
     private static let table: [UInt32] = {
         var table = [UInt32](repeating: 0, count: 256)
         table.indices.forEach { i in
@@ -30,14 +24,9 @@ extension ISO_21320.CRC.`32` {
         return table
     }()
 
-    /// Calculate CRC-32 checksum of data.
-    ///
-    /// - Parameter data: The bytes to checksum.
-    /// - Returns: The CRC-32 checksum.
     public static func checksum<Bytes>(_ data: Bytes) -> UInt32
     where Bytes: Swift.Sequence, Bytes.Element == Byte {
-        // UInt32 accumulator is arithmetic-domain; cross the byte-domain
-        // boundary via .underlying.
+
         var crc: UInt32 = 0xFFFF_FFFF
         for byte in data {
             let index = Int((crc ^ UInt32(byte.underlying)) & 0xFF)
@@ -46,6 +35,4 @@ extension ISO_21320.CRC.`32` {
         return crc ^ 0xFFFF_FFFF
     }
 
-    // Stdlib-interop UInt8 forwarder lives in `ISO 21320 Standard Library
-    // Integration` per [API-BYTE-007].
 }

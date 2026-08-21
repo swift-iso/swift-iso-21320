@@ -2,8 +2,6 @@
 
 import PackageDescription
 
-// ISO/IEC 21320-1:2015 - Document Container File
-// A restricted ZIP format subset used by EPUB, ODF, OOXML
 let package = Package(
     name: "swift-iso-21320",
     platforms: [
