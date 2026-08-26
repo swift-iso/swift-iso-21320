@@ -1,4 +1,4 @@
-internal import Byte_Primitives
+internal import Byte
 import RFC_1951
 
 extension ISO_21320 {

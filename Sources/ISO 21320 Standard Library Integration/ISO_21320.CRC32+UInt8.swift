@@ -1,4 +1,4 @@
-internal import Byte_Primitives
+internal import Byte
 public import ISO_21320
 
 extension ISO_21320.CRC.`32` {
