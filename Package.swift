@@ -48,7 +48,7 @@ let package = Package(
         .target(
             name: "ISO 21320 Standard Library Integration",
             dependencies: [
-                "ISO 21320",
+                .target(name: "ISO 21320"),
                 .product(
                     name: "Byte Standard Library Integration",
                     package: "swift-byte"
@@ -58,23 +58,19 @@ let package = Package(
         .testTarget(
             name: "ISO 21320 Tests",
             dependencies: [
-                "ISO 21320"
+                .target(name: "ISO 21320")
             ]
         ),
         .testTarget(
             name: "ISO 21320 Standard Library Integration Tests",
             dependencies: [
-                "ISO 21320",
-                "ISO 21320 Standard Library Integration",
+                .target(name: "ISO 21320"),
+                .target(name: "ISO 21320 Standard Library Integration"),
             ]
         ),
     ],
     swiftLanguageModes: [.v6]
 )
-
-extension String {
-    var tests: Self { self + " Tests" }
-}
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     let ecosystem: [SwiftSetting] = [
