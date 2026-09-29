@@ -12,7 +12,7 @@ extension ISO_21320.Archive {
         init(path: String, uncompressedData: [UInt8], compress: Bool) {
             self.path = path
             self.uncompressedData = uncompressedData
-            self.crc32 = ISO_21320.CRC.`32`.checksum(uncompressedData.lazy.map(Byte.init))
+            self.crc32 = ISO_21320.CRC.`32`.checksum(uncompressedData.lazy.map(Byte.init(bitPattern:)))
 
             self.modificationTime = 0
             self.modificationDate = 0x0021
@@ -20,7 +20,7 @@ extension ISO_21320.Archive {
             if compress && !uncompressedData.isEmpty {
 
                 let deflated = RFC_1951.compress(
-                    uncompressedData.lazy.map(Byte.init),
+                    uncompressedData.lazy.map(Byte.init(bitPattern:)),
                     level: .balanced
                 )
 

@@ -12,7 +12,7 @@ struct ISO_21320_Tests {
     @Test
     func `CRC-32 checksum`() {
 
-        let data: [Byte] = "123456789".utf8.map(Byte.init)
+        let data: [Byte] = "123456789".utf8.map(Byte.init(bitPattern:))
         let crc = ISO_21320.CRC.`32`.checksum(data)
         #expect(crc == 0xCBF4_3926)
     }
