@@ -24,7 +24,7 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-byte.git",
+            url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         ),
         .package(url: "https://github.com/swift-ietf/swift-rfc-1951.git", branch: "main"),
@@ -39,7 +39,7 @@ let package = Package(
                 ),
                 .product(name: "Byte", package: "swift-byte"),
                 .product(
-                    name: "Byte Standard Library Integration",
+                    name: "Byte",
                     package: "swift-byte"
                 ),
                 .product(name: "RFC 1951", package: "swift-rfc-1951"),
@@ -50,7 +50,7 @@ let package = Package(
             dependencies: [
                 .target(name: "ISO 21320"),
                 .product(
-                    name: "Byte Standard Library Integration",
+                    name: "Byte",
                     package: "swift-byte"
                 ),
             ]
