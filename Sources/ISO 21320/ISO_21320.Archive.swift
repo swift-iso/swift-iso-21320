@@ -20,11 +20,15 @@ extension ISO_21320.Archive {
         data: [UInt8],
         compress: Bool = true
     ) {
+        precondition(path.utf8.count <= 65_535, "ZIP entry path exceeds 65,535 bytes")
+        precondition(data.count <= UInt32.max, "ZIP entry exceeds 4 GiB; ZIP64 is not supported")
+        precondition(entries.count < 65_535, "ZIP archive exceeds 65,535 entries; ZIP64 is not supported")
         let entry = Entry(
             path: path,
             uncompressedData: data,
             compress: compress
         )
+        precondition(entry.compressedData.count <= UInt32.max, "ZIP entry exceeds 4 GiB; ZIP64 is not supported")
         entries.append(entry)
     }
 
@@ -42,16 +46,19 @@ extension ISO_21320.Archive {
         var offsets: [UInt32] = []
 
         for entry in entries {
+            precondition(output.count <= UInt32.max, "ZIP archive exceeds 4 GiB; ZIP64 is not supported")
             offsets.append(UInt32(output.count))
             entry.writeLocalHeader(to: &output)
             output.append(contentsOf: entry.compressedData)
         }
 
+        precondition(output.count <= UInt32.max, "ZIP archive exceeds 4 GiB; ZIP64 is not supported")
         let centralDirectoryOffset = UInt32(output.count)
 
         for (index, entry) in entries.enumerated() {
             entry.writeCentralHeader(localOffset: offsets[index], to: &centralDirectory)
         }
+        precondition(centralDirectory.count <= UInt32.max, "ZIP central directory exceeds 4 GiB; ZIP64 is not supported")
         output.append(contentsOf: centralDirectory)
 
         writeEndOfCentralDirectory(
