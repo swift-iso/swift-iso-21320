@@ -25,7 +25,7 @@ extension ISO_21320.CRC.`32` {
     }()
 
     public static func checksum<Bytes>(_ data: Bytes) -> UInt32
-    where Bytes: Swift.Sequence, Bytes.Element == Byte {
+    where Bytes: Swift::Sequence, Bytes.Element == Byte {
 
         var crc: UInt32 = 0xFFFF_FFFF
         for byte in data {

@@ -19,7 +19,7 @@ struct ISO_21320_Tests {
 
     @Test
     func `Empty archive`() {
-        var archive = ISO_21320.Archive()
+        let archive = ISO_21320.Archive()
         let bytes = archive.finalize()
 
         #expect(bytes.count >= 22)
