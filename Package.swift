@@ -27,6 +27,10 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-binary.git",
+            branch: "main"
+        ),
         .package(url: "https://github.com/swift-ietf/swift-rfc-1951.git", branch: "main"),
     ],
     targets: [
@@ -42,6 +46,7 @@ let package = Package(
                     name: "Byte",
                     package: "swift-byte"
                 ),
+                .product(name: "Binary", package: "swift-binary"),
                 .product(name: "RFC 1951", package: "swift-rfc-1951"),
             ]
         ),
