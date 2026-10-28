@@ -42,10 +42,6 @@ let package = Package(
                     package: "swift-standard-library-extensions"
                 ),
                 .product(name: "Byte", package: "swift-byte"),
-                .product(
-                    name: "Byte",
-                    package: "swift-byte"
-                ),
                 .product(name: "Binary", package: "swift-binary"),
                 .product(name: "RFC 1951", package: "swift-rfc-1951"),
             ]
