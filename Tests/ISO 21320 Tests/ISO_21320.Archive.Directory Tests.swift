@@ -3,7 +3,9 @@ import Testing
 
 @testable import ISO_21320
 
-extension ISO_21320.Archive.Directory {
+enum `ISO_21320.Archive.Directory Tests` {}
+
+extension `ISO_21320.Archive.Directory Tests` {
     @Suite struct Test {
         @Suite struct Unit {}
         @Suite struct `Edge Case` {}
@@ -11,7 +13,7 @@ extension ISO_21320.Archive.Directory {
     }
 }
 
-extension ISO_21320.Archive.Directory.Test {
+extension `ISO_21320.Archive.Directory Tests`.Test {
     static func written(_ build: (inout ISO_21320.Archive) -> Void) -> [Byte] {
         var archive = ISO_21320.Archive()
         build(&archive)
@@ -56,9 +58,9 @@ extension ISO_21320.Archive.Directory.Test {
     ].map(Byte.init(bitPattern:))
 }
 
-extension ISO_21320.Archive.Directory.Test.Unit {
+extension `ISO_21320.Archive.Directory Tests`.Test.Unit {
     @Test func `the entries list every path written, in order, with its compression and size`() throws {
-        let bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        let bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             archive.add(path: "mimetype", content: "application/epub+zip", compress: false)
             archive.add(path: "word/document.xml", content: String(repeating: "<w:t>Hello</w:t>", count: 50))
         }
@@ -69,35 +71,35 @@ extension ISO_21320.Archive.Directory.Test.Unit {
     }
 
     @Test func `a stored entry reads back its bytes`() throws {
-        let bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        let bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             archive.add(path: "a.txt", content: "Hello", compress: false)
         }
         let directory = try ISO_21320.Archive.Directory(bytes)
         let entry = try #require(directory.entries.first)
-        #expect(try directory.read(entry) == ISO_21320.Archive.Directory.Test.bytes("Hello"))
+        #expect(try directory.read(entry) == `ISO_21320.Archive.Directory Tests`.Test.bytes("Hello"))
     }
 
     @Test func `a deflated entry inflates back to its bytes`() throws {
         let content = String(repeating: "Hello World! ", count: 100)
-        let bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        let bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             archive.add(path: "a.txt", content: "first", compress: false)
             archive.add(path: "b.txt", content: content)
         }
         let directory = try ISO_21320.Archive.Directory(bytes)
         let entry = try #require(directory.entries.last)
         #expect(entry.compression == .deflate)
-        #expect(try directory.read(entry) == ISO_21320.Archive.Directory.Test.bytes(content))
+        #expect(try directory.read(entry) == `ISO_21320.Archive.Directory Tests`.Test.bytes(content))
     }
 }
 
-extension ISO_21320.Archive.Directory.Test.`Edge Case` {
+extension `ISO_21320.Archive.Directory Tests`.Test.`Edge Case` {
     @Test func `an empty archive lists no entries`() throws {
-        let directory = try ISO_21320.Archive.Directory(ISO_21320.Archive.Directory.Test.written { _ in })
+        let directory = try ISO_21320.Archive.Directory(`ISO_21320.Archive.Directory Tests`.Test.written { _ in })
         #expect(directory.entries.isEmpty)
     }
 
     @Test func `an empty entry reads back empty`() throws {
-        let bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        let bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             archive.add(path: "empty", data: [])
         }
         let directory = try ISO_21320.Archive.Directory(bytes)
@@ -107,7 +109,7 @@ extension ISO_21320.Archive.Directory.Test.`Edge Case` {
 
     @Test func `bytes that are no archive are refused`() {
         #expect(throws: ISO_21320.Archive.Directory.Error.unterminated) {
-            try ISO_21320.Archive.Directory(ISO_21320.Archive.Directory.Test.bytes("PK, but not a ZIP archive at all"))
+            try ISO_21320.Archive.Directory(`ISO_21320.Archive.Directory Tests`.Test.bytes("PK, but not a ZIP archive at all"))
         }
         #expect(throws: ISO_21320.Archive.Directory.Error.unterminated) {
             try ISO_21320.Archive.Directory([])
@@ -115,7 +117,7 @@ extension ISO_21320.Archive.Directory.Test.`Edge Case` {
     }
 
     @Test func `an archive cut short is refused`() {
-        let bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        let bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             archive.add(path: "a.txt", content: "Hello", compress: false)
         }
         #expect(throws: ISO_21320.Archive.Directory.Error.self) {
@@ -124,10 +126,10 @@ extension ISO_21320.Archive.Directory.Test.`Edge Case` {
     }
 
     @Test func `a trailing archive comment does not hide the directory`() throws {
-        var bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        var bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             archive.add(path: "a.txt", content: "Hello", compress: false)
         }
-        let comment = ISO_21320.Archive.Directory.Test.bytes("a comment")
+        let comment = `ISO_21320.Archive.Directory Tests`.Test.bytes("a comment")
         bytes[bytes.count - 2] = Byte(bitPattern: UInt8(comment.count))
         bytes.append(contentsOf: comment)
         let directory = try ISO_21320.Archive.Directory(bytes)
@@ -135,7 +137,7 @@ extension ISO_21320.Archive.Directory.Test.`Edge Case` {
     }
 
     @Test func `a corrupted entry fails its checksum`() throws {
-        var bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        var bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             archive.add(path: "a.txt", content: "Hello", compress: false)
         }
         let index = try #require(bytes.firstIndex(of: Byte(bitPattern: UInt8(ascii: "H"))))
@@ -148,17 +150,19 @@ extension ISO_21320.Archive.Directory.Test.`Edge Case` {
     }
 }
 
-extension ISO_21320.Archive.Directory.Test.Integration {
+extension `ISO_21320.Archive.Directory Tests`.Test.Integration {
     @Test func `an archive written by ditto, with data descriptors, is listed and read`() throws {
-        let directory = try ISO_21320.Archive.Directory(ISO_21320.Archive.Directory.Test.ditto)
+        let directory = try ISO_21320.Archive.Directory(`ISO_21320.Archive.Directory Tests`.Test.ditto)
         #expect(directory.entries.map(\.path) == ["a.txt", "word/", "word/document.xml"])
         #expect(directory.entries.map(\.size) == [1, 0, 48])
         let reads = try directory.entries.map { entry throws(ISO_21320.Archive.Directory.Error) in try directory.read(entry) }
-        #expect(reads == [
-            ISO_21320.Archive.Directory.Test.bytes("x"),
-            [],
-            ISO_21320.Archive.Directory.Test.bytes("Hello, archive. Hello, archive. Hello, archive.\n"),
-        ])
+        #expect(
+            reads == [
+                `ISO_21320.Archive.Directory Tests`.Test.bytes("x"),
+                [],
+                `ISO_21320.Archive.Directory Tests`.Test.bytes("Hello, archive. Hello, archive. Hello, archive.\n"),
+            ]
+        )
     }
 
     @Test func `every entry written reads back unchanged`() throws {
@@ -168,12 +172,12 @@ extension ISO_21320.Archive.Directory.Test.Integration {
             ("xl/sharedStrings.xml", "<sst><si><t>Huur</t></si></sst>", true),
             ("xl/worksheets/sheet1.xml", String(repeating: "<c r=\"A1\" t=\"s\"><v>0</v></c>", count: 30), true),
         ]
-        let bytes = ISO_21320.Archive.Directory.Test.written { archive in
+        let bytes = `ISO_21320.Archive.Directory Tests`.Test.written { archive in
             for item in contents { archive.add(path: item.path, content: item.content, compress: item.compress) }
         }
         let directory = try ISO_21320.Archive.Directory(bytes)
         let reads = try directory.entries.map { entry throws(ISO_21320.Archive.Directory.Error) in try directory.read(entry) }
         #expect(directory.entries.map(\.path) == contents.map(\.path))
-        #expect(reads == contents.map { ISO_21320.Archive.Directory.Test.bytes($0.content) })
+        #expect(reads == contents.map { `ISO_21320.Archive.Directory Tests`.Test.bytes($0.content) })
     }
 }
