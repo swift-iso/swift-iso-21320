@@ -1,5 +1,5 @@
-public import Byte
 internal import Binary
+public import Byte
 import RFC_1951
 
 extension ISO_21320.Archive {
