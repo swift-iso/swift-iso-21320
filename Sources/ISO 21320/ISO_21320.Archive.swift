@@ -16,6 +16,8 @@ extension ISO_21320 {
 extension ISO_21320.Archive {
 
     public mutating func add(
+        // swift-linter:disable:next raw concept
+        // REASON: An archive entry's name inside a ZIP, forward-slash text the format defines, not a path on this file system; looked at Path (File.Path), whose platform code units and refusals don't describe it.
         path: String,
         data: [UInt8],
         compress: Bool = true
@@ -33,6 +35,8 @@ extension ISO_21320.Archive {
     }
 
     public mutating func add(
+        // swift-linter:disable:next raw concept
+        // REASON: An archive entry's name inside a ZIP, forward-slash text the format defines, not a path on this file system; looked at Path (File.Path), whose platform code units and refusals don't describe it.
         path: String,
         content: String,
         compress: Bool = true
