@@ -2,8 +2,8 @@ import ISO_21320
 import ISO_21320_Standard_Library_Integration
 import Testing
 
-@Suite("ISO 21320 CRC-32 UInt8 forwarder")
-struct ISO_21320_CRC32_UInt8_Tests {
+@Suite
+struct `ISO 21320 CRC-32 UInt8 forwarder` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}

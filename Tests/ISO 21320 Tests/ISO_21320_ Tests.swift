@@ -3,8 +3,8 @@ import Testing
 
 @testable import ISO_21320
 
-@Suite("ISO 21320 Tests")
-struct ISO_21320_Tests {
+@Suite
+struct `ISO 21320 Tests` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
