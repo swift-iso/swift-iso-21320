@@ -1,3 +1,4 @@
+public import Byte
 public import RFC_1951
 
 extension ISO_21320.Archive.Directory {
@@ -15,6 +16,8 @@ extension ISO_21320.Archive.Directory {
 
         /// The archive uses ZIP64 records.
         case zip64
+
+        case name([Byte])
 
         /// The entry is encrypted.
         case encrypted(path: String)

@@ -157,7 +157,11 @@ extension ISO_21320.Archive.Directory {
         count: Int
     ) throws(ISO_21320.Archive.Directory.Error) -> String {
         guard offset <= bytes.count, count <= bytes.count - offset else { throw .truncated }
-        return String(decoding: bytes[offset..<offset + count].lazy.map(\.underlying), as: UTF8.self)
+        let name = bytes[offset..<offset + count]
+        guard let text = String(validating: name.lazy.map(\.underlying), as: UTF8.self) else {
+            throw .name(Array(name))
+        }
+        return text
     }
 
     static func position(_ value: UInt32) throws(ISO_21320.Archive.Directory.Error) -> Int {

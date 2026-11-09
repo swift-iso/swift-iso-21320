@@ -32,9 +32,9 @@ extension `ISO_21320_ Tests` {
         }
 
         @Test
-        func `Archive with stored file`() {
+        func `Archive with stored file`() throws {
             var archive = ISO_21320.Archive()
-            archive.add(path: "test.txt", content: "Hello", compress: false)
+            try archive.add(path: "test.txt", content: "Hello", compress: false)
             let bytes = archive.finalize()
 
             #expect(bytes.count > 22)
@@ -46,21 +46,21 @@ extension `ISO_21320_ Tests` {
         }
 
         @Test
-        func `Archive with compressed file`() {
+        func `Archive with compressed file`() throws {
             var archive = ISO_21320.Archive()
 
             let content = String(repeating: "Hello World! ", count: 100)
-            archive.add(path: "test.txt", content: content, compress: true)
+            try archive.add(path: "test.txt", content: content, compress: true)
             let bytes = archive.finalize()
 
             #expect(bytes.count < content.utf8.count)
         }
 
         @Test
-        func `EPUB mimetype first`() {
+        func `EPUB mimetype first`() throws {
             var archive = ISO_21320.Archive()
-            archive.add(path: "mimetype", content: "application/epub+zip", compress: false)
-            archive.add(path: "META-INF/container.xml", content: "<xml/>", compress: true)
+            try archive.add(path: "mimetype", content: "application/epub+zip", compress: false)
+            try archive.add(path: "META-INF/container.xml", content: "<xml/>", compress: true)
             let bytes = archive.finalize()
 
             #expect(bytes[8] == 0x00)

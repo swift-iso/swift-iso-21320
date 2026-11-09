@@ -40,6 +40,10 @@ extension ISO_21320.Archive {
 }
 
 extension ISO_21320.Archive.Entry {
+    var flags: UInt16 {
+        path.utf8.allSatisfy { $0 < 0x80 } ? 0 : 0x0800
+    }
+
     func writeLocalHeader(to output: inout [UInt8]) {
         let pathBytes = Array(path.utf8)
 
@@ -47,7 +51,7 @@ extension ISO_21320.Archive.Entry {
 
         writeUInt16(compressionMethod == .deflate ? 20 : 10, to: &output)
 
-        writeUInt16(0, to: &output)
+        writeUInt16(flags, to: &output)
 
         writeUInt16(compressionMethod.rawValue, to: &output)
 
@@ -77,7 +81,7 @@ extension ISO_21320.Archive.Entry {
 
         writeUInt16(compressionMethod == .deflate ? 20 : 10, to: &output)
 
-        writeUInt16(0, to: &output)
+        writeUInt16(flags, to: &output)
 
         writeUInt16(compressionMethod.rawValue, to: &output)
 
