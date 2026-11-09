@@ -26,7 +26,7 @@ extension `ISO_21320.Archive Limits Tests` {
         @Test
         func `an entry past the last one the directory can count is refused`() throws {
             var archive = ISO_21320.Archive()
-            for index in 0..<65_534 {
+            try (0..<65_534).forEach { index in
                 try archive.add(path: "\(index)", data: [], compress: false)
             }
             #expect(throws: ISO_21320.Archive.Error.entries(count: 65_535)) {
